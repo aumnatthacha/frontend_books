@@ -4,18 +4,19 @@ import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
 import { logOut } from "../../stores/slices/authSlice";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
+// import AppBar from "@mui/material/AppBar";
+// import Box from "@mui/material/Box";
+// import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+// import IconButton from "@mui/material/IconButton";
+// import MenuIcon from "@mui/icons-material/Menu";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CardMedia from "@mui/material/CardMedia";
-import { Role } from "../../interfaces/Role";
+// import { Role } from "../../interfaces/Role";
+import MyAppBar from "../../components/MyAppBar";
 // import Collapse from "@mui/material/Collapse";
 // import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
@@ -67,47 +68,7 @@ const Home = () => {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              <Link to="/linkpage">
-                <Button color="inherit">link page</Button>
-              </Link>
-            </Typography>
-            <Link to="/profile">
-              <Button color="inherit">Profile</Button>
-            </Link>
-
-            {roles?.find((role: Role) => role == "ADMIN") ? (
-              <>
-                <Link to="/admin">
-                  <Button color="inherit">Admin</Button>
-                </Link>
-                <Link to="/add">
-                  <Button color="inherit">Add</Button>
-                </Link>
-              </>
-            ) : null}
-
-            <Link to="/test">
-              <Button color="inherit">Test</Button>
-            </Link>
-            <Button color="inherit" onClick={signOut}>
-              Sign Out
-            </Button>
-          </Toolbar>
-        </AppBar>
-      </Box>
+     <MyAppBar signOut={signOut} />
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
