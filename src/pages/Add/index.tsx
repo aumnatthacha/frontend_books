@@ -5,7 +5,7 @@ import { Grid, Button, Typography } from "@mui/material";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import MyAppBar from "../Home/test";
 import Swal from "sweetalert2";
-
+import { useNavigate } from 'react-router-dom';
 
 
 interface FormData {
@@ -18,6 +18,7 @@ interface FormData {
 }
 
 function Add() {
+  const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
   const [formData, setFormData] = useState<FormData>({
     author: "",
@@ -28,29 +29,22 @@ function Add() {
     price: 0,
   });
 
-  // const handleAdd = async () => {
-  //   const res = await axiosPrivate.post("/books", formData);
-  //   console.log(res.data);
-  // };
-
   const handleAdd = async () => {
     try {
       const res = await axiosPrivate.post("/books", formData);
+      console.log(res.data);
 
-      if (res.status === 200) {
-        
-        Swal.fire("Success", "Book added successfully", "success");
-        console.log("Book added successfully.");
-      } else {
-        
-        Swal.fire("Error", "Failed to add the book", "error");
-        console.error("Failed to add the book.");
-      }
+      Swal.fire("Good job!", "You Add Books success!", "success").then(() => {
+        window.location.href = "/";
+      });
     } catch (error) {
-      
-      Swal.fire("Error", "An error occurred while adding the book", "error");
-      console.error("An error occurred while adding the book:", error);
+      console.error("An error occurred:", error);
+      Swal.fire("Error", "An error occurred!", "error");
     }
+  };
+
+  const handleCancel = () => {
+    navigate('/');
   };
 
   return (
@@ -167,21 +161,35 @@ function Add() {
             />
           </Grid>
         </Grid>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleAdd}
-          fullWidth
-          sx={{
-            backgroundColor: "#000033",
-            color: "white",
-            "&:hover": {
-              backgroundColor: "#33FF33",
-            },
-          }}
-        >
-          Add
-        </Button>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleAdd}
+              fullWidth
+              sx={{
+                backgroundColor: "#000033",
+                color: "white",
+                "&:hover": {
+                  backgroundColor: "#33FF33",
+                },
+              }}
+            >
+              Add
+            </Button>
+          </Grid>
+          <Grid item xs={6}>
+            <Button
+              variant="contained"
+              color="secondary"
+              fullWidth
+              onClick={handleCancel}
+            >
+              ยกเลิก
+            </Button>
+          </Grid>
+        </Grid>
       </Box>
     </>
   );

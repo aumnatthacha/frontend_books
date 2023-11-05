@@ -4,25 +4,15 @@ import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
 import { logOut } from "../../stores/slices/authSlice";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
-// import AppBar from "@mui/material/AppBar";
-// import Box from "@mui/material/Box";
-// import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-// import IconButton from "@mui/material/IconButton";
-// import MenuIcon from "@mui/icons-material/Menu";
+import { Button, Grid } from "@mui/material";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CardMedia from "@mui/material/CardMedia";
-// import { Role } from "../../interfaces/Role";
 import MyAppBar from "../../components/MyAppBar";
-// import Collapse from "@mui/material/Collapse";
-// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import Swal from "sweetalert2";
 
-// import CardActions from "@mui/material/CardActions";
-
-// type Props = {};
 interface Book {
   expanded: boolean;
   ISBN: string;
@@ -33,7 +23,6 @@ interface Book {
   profileUrl: string;
   title: string;
   updatedAt: string;
-  // __v: 0;
   _id: string;
 }
 
@@ -51,10 +40,27 @@ const Home = () => {
 
   const handleDelete = async (bookId: string) => {
     try {
-      await axiosPrivate.delete(`/books/${bookId}`);
-      setBooks((prevBooks) => prevBooks.filter((book) => book._id !== bookId));
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "You are about to delete this book!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it",
+        cancelButtonText: "No, cancel",
+      });
+
+      if (result.isConfirmed) {
+        await axiosPrivate.delete(`/books/${bookId}`);
+        setBooks((prevBooks) =>
+          prevBooks.filter((book) => book._id !== bookId)
+        );
+        Swal.fire("Deleted!", "The book has been deleted.", "success");
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire("Cancelled", "The book deletion has been cancelled.", "info");
+      }
     } catch (error) {
       console.error("Error deleting book:", error);
+      Swal.fire("Error", "An error occurred while deleting the book.", "error");
     }
   };
 
@@ -68,7 +74,7 @@ const Home = () => {
 
   return (
     <>
-     <MyAppBar signOut={signOut} />
+      <MyAppBar signOut={signOut} />
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
@@ -106,31 +112,28 @@ const Home = () => {
                 Price: ${book.price}
               </Typography>
             </CardContent>
-            <Link to={`/update/${book._id}`}>
-              <Button color="inherit">Update</Button>
-            </Link>
-            <DeleteIcon
-              sx={{
-                color: "red",
-                "&:hover": {
-                  color: "blue",
-                },
-              }}
-              onClick={() => handleDelete(book._id)}
-            />
-            {/* <Button
-              onClick={() => handleExpandClick(book)}
-              aria-expanded={book.expanded}
-            >
-              {book.expanded ? "Collapse Details" : "Expand Details"}
-              <ExpandMoreIcon />
-            </Button>
-            <Collapse in={book.expanded}>
-              <CardContent>
-                <Typography paragraph>Additional book details:</Typography>
-                <Typography>Description: {book.description}</Typography>
-              </CardContent>
-            </Collapse> */}
+            <Grid container spacing={2} alignItems="center">
+              <Grid item xs={6}>
+                <Link to={`/update/${book._id}`}>
+                  <Button color="inherit">Update</Button>
+                </Link>
+              </Grid>
+              <Grid
+                item
+                xs={6}
+                sx={{ display: "flex", justifyContent: "flex-end" }}
+              >
+                <DeleteIcon
+                  sx={{
+                    color: "red",
+                    "&:hover": {
+                      color: "black",
+                    },
+                  }}
+                  onClick={() => handleDelete(book._id)}
+                />
+              </Grid>
+            </Grid>
           </Card>
         ))}
       </div>

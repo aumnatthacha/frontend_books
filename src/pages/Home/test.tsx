@@ -63,3 +63,26 @@ const MyAppBar: React.FC<AppBarProps> = ({ signOut }) => {
 };
 
 export default MyAppBar;
+
+{/* <DeleteIcon
+              sx={{
+                color: "red",
+                "&:hover": {
+                  color: "blue",
+                },
+              }}
+              onClick={() => handleDelete(book._id)}
+            /> */}
+            {/* <Button
+              onClick={() => handleExpandClick(book)}
+              aria-expanded={book.expanded}
+            >
+              {book.expanded ? "Collapse Details" : "Expand Details"}
+              <ExpandMoreIcon />
+            </Button>
+            <Collapse in={book.expanded}>
+              <CardContent>
+                <Typography paragraph>Additional book details:</Typography>
+                <Typography>Description: {book.description}</Typography>
+              </CardContent>
+            </Collapse> */}
