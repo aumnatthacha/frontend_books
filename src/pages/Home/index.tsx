@@ -114,8 +114,13 @@ const Home = () => {
             </CardContent>
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={6}>
-                <Link to={`/update/${book._id}`}>
-                  <Button color="inherit">Update</Button>
+                <Link
+                  to={`/update/${book._id}`}
+                  style={{ textDecoration: "none" }}
+                >
+                  <Button style={{ backgroundColor: "black", color: "white" }}>
+                    Update
+                  </Button>
                 </Link>
               </Grid>
               <Grid
