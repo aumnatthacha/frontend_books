@@ -15,7 +15,7 @@ import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import Update  from "./pages/Update";
 import Add from "./pages/Add"
-import Test from "./pages/Home/test";
+
 
 
 function App() {
@@ -30,7 +30,6 @@ function App() {
         <Route path="linkpage" element={<LinkPage />} />
         <Route path="unauthorized" element={<Unauthorized />} />
         <Route path="/update/:id" element={<Update />} />
-        <Route path="test" element={<Test/>} />
        
 
        

@@ -118,7 +118,7 @@ const Home = () => {
                   to={`/update/${book._id}`}
                   style={{ textDecoration: "none" }}
                 >
-                  <Button style={{ backgroundColor: "black", color: "white" }}>
+                  <Button style={{ color: "black"  }}>
                     Update
                   </Button>
                 </Link>

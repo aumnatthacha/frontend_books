@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../hooks/useStore";
-import { Role } from '../interfaces/Role';
+import { Role } from "../interfaces/Role";
 
 interface AppBarProps {
   signOut: () => void;
@@ -19,7 +19,7 @@ const MyAppBar: React.FC<AppBarProps> = ({ signOut }) => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{ backgroundColor: "#556b2f" }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -50,9 +50,6 @@ const MyAppBar: React.FC<AppBarProps> = ({ signOut }) => {
             </>
           ) : null}
 
-          <Link to="/test">
-            <Button color="inherit">Test</Button>
-          </Link>
           <Button color="inherit" onClick={signOut}>
             Sign Out
           </Button>

@@ -3,10 +3,9 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import { Grid, Button, Typography } from "@mui/material";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import MyAppBar from "../Home/test";
+import MyAppBar from "../../components/MyAppBar";
 import Swal from "sweetalert2";
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
 
 interface FormData {
   author: string;
@@ -44,7 +43,7 @@ function Add() {
   };
 
   const handleCancel = () => {
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -63,12 +62,17 @@ function Add() {
           border: "1px solid #ccc",
           borderRadius: "16px",
           boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-          backgroundColor: "#fff",
+          backgroundColor: "#bcb88a",
         }}
       >
-        <Typography variant="h5" gutterBottom>
+       <Typography
+          variant="h5"
+          gutterBottom
+          style={{ marginBottom: "50px", fontWeight: "bold" }}
+        >
           ADD A BOOK
         </Typography>
+
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <Box
@@ -169,10 +173,10 @@ function Add() {
               onClick={handleAdd}
               fullWidth
               sx={{
-                backgroundColor: "#000033",
-                color: "white",
+                backgroundColor: "#faebd7",
+                color: "black",
                 "&:hover": {
-                  backgroundColor: "#33FF33",
+                  backgroundColor: "#7fff00   ",
                 },
               }}
             >
@@ -182,11 +186,17 @@ function Add() {
           <Grid item xs={6}>
             <Button
               variant="contained"
-              color="secondary"
               fullWidth
+              sx={{
+                backgroundColor: "#808000",
+                color: "white",
+                "&:hover": {
+                  backgroundColor: "#8b0000 ",
+                },
+              }}
               onClick={handleCancel}
             >
-              ยกเลิก
+              Cancel
             </Button>
           </Grid>
         </Grid>
