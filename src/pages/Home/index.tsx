@@ -12,6 +12,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CardMedia from "@mui/material/CardMedia";
 import MyAppBar from "../../components/MyAppBar";
 import Swal from "sweetalert2";
+import { Role } from "../../interfaces/Role";
 
 interface Book {
   expanded: boolean;
@@ -32,6 +33,7 @@ const Home = () => {
   console.log(roles);
   const dispatcher = useAppDispatch();
   const [books, setBooks] = useState<Book[]>([]);
+  
 
   const signOut = async () => {
     dispatcher(logOut());
@@ -114,29 +116,35 @@ const Home = () => {
             </CardContent>
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={6}>
-                <Link
-                  to={`/update/${book._id}`}
-                  style={{ textDecoration: "none" }}
-                >
-                  <Button style={{ color: "green"  }}>
-                    Update
-                  </Button>
-                </Link>
+                {roles?.find((role: Role) => role === "ADMIN") ? (
+                  <>
+                    <Link
+                      to={`/update/${book._id}`}
+                      style={{ textDecoration: "none" }}
+                    >
+                      <Button style={{ color: "green" }}>Update</Button>
+                    </Link>
+                  </>
+                ) : null}
               </Grid>
               <Grid
                 item
                 xs={6}
                 sx={{ display: "flex", justifyContent: "flex-end" }}
               >
-                <DeleteIcon
-                  sx={{
-                    color: "red",
-                    "&:hover": {
-                      color: "black",
-                    },
-                  }}
-                  onClick={() => handleDelete(book._id)}
-                />
+                {roles?.find((role: Role) => role === "ADMIN") ? (
+                  <>
+                    <DeleteIcon
+                      sx={{
+                        color: "red",
+                        "&:hover": {
+                          color: "black",
+                        },
+                      }}
+                      onClick={() => handleDelete(book._id)}
+                    />
+                  </>
+                ) : null}
               </Grid>
             </Grid>
           </Card>
