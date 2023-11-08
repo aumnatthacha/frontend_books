@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { useAppSelector } from "../../hooks/useStore";
+import { useAppSelector, useAppDispatch } from "../../hooks/useStore";
 import { useNavigate } from "react-router-dom";
+import MyAppBar from "../../components/MyAppBar";
+import { logOut } from "../../stores/slices/authSlice";
 
 export interface User {
   _id: string;
   email: string;
   name: string;
   username: string;
+  profileUrl: string;
   role: {
     Admin: string;
     User: string;
@@ -18,12 +21,14 @@ export interface User {
 
 const Profile = () => {
   const axiosPrivate = useAxiosPrivate();
+  const dispatcher = useAppDispatch();
   const username = useAppSelector((state) => state.auth.user);
   const [user, setUser] = useState<User>({
     _id: "",
     email: "",
     name: "",
     username: "",
+    profileUrl: "",
     role: { Admin: "", User: "" },
     isAlive: false,
     __v: 0,
@@ -52,77 +57,128 @@ const Profile = () => {
     }
   };
 
+  const signOut = async () => {
+    dispatcher(logOut());
+    await axiosPrivate.post("/auth/logout");
+  };
+
+
   return (
-    <div className="flex items-center justify-center min-h-screen from-gray-700 via-gray-800 to-gray-900 bg-gradient-to-br p-10">
-      <div className="relative w-full group max-w-md min-w-0 mx-auto mt-6 mb-6 break-words bg-white border shadow-2xl dark:bg-gray-800 dark:border-gray-700 md.max-w-sm rounded-xl">
-        <div className="pb-6">
-          <div className="flex flex-wrap justify-center">
-            <div className="flex justify-center w-full">
-              <div className="relative">
-                <img
-                  src="https://source.unsplash.com/jmURdhtm7Ng/120x120"
-                  className="dark:shadow-xl border-white dark:border-gray-800 rounded-full align-middle border-8 absolute -m-16 -ml-18 lg:-ml-16 max-w-[150px]"
+    <>
+      <MyAppBar signOut={signOut} />
+
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="w-full max-w-lg p-4 rounded-md shadow-md bg-white">
+          <div className="text-center mb-4">
+            <img
+              src={user.profileUrl}
+              alt="User"
+              className="w-20 h-20 rounded-full mx-auto"
+            />
+            <h1 className="mt-2 text-xl font-semibold">{user.name}</h1>
+            <h2 className="text-sm text-gray-600">{user.username}</h2>
+            <h2 className="text-sm text-gray-600">{user.email}</h2>
+          </div>
+
+          {editing ? (
+            <div>
+              <div className="mb-4">
+                <label
+                  htmlFor="img"
+                  className="block text-gray-700 font-semibold"
+                >
+                  ProfileImg
+                </label>
+                <input
+                  type="text"
+                  id="profileUrl"
+                  value={user.profileUrl}
+                  onChange={(e) =>
+                    setUser({ ...user, profileUrl: e.target.value })
+                  }
+                  className="w-full px-3 py-2 border rounded-md"
                 />
               </div>
-            </div>
-          </div>
-          <div className="mt-20 text-center">
-            {editing ? (
-              <div>
+              <div className="mb-4">
+                <label
+                  htmlFor="name"
+                  className="block text-gray-700 font-semibold"
+                >
+                  Name
+                </label>
                 <input
                   type="text"
+                  id="name"
                   value={user.name}
                   onChange={(e) => setUser({ ...user, name: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
                 />
+              </div>
+
+              <div className="mb-4">
+                <label
+                  htmlFor="username"
+                  className="block text-gray-700 font-semibold"
+                >
+                  UserName
+                </label>
                 <input
                   type="text"
+                  id="username"
                   value={user.username}
                   onChange={(e) =>
                     setUser({ ...user, username: e.target.value })
                   }
+                  className="w-full px-3 py-2 border rounded-md"
                 />
+              </div>
+
+              <div className="mb-4">
+                <label
+                  htmlFor="email"
+                  className="block text-gray-700 font-semibold"
+                >
+                  Gmail
+                </label>
                 <input
-                  type="text"
+                  type="email"
+                  id="email"
                   value={user.email}
                   onChange={(e) => setUser({ ...user, email: e.target.value })}
+                  className="w-full px-3 py-2 border rounded-md"
                 />
-                <button onClick={handleSave}>บันทึก</button>
               </div>
-            ) : (
-              <div>
-                <h3 className="mb-1 text-2xl font-bold leading-normal text-gray-700 dark:text-gray-300">
-                  {user.name}
-                </h3>
-                <h3 className="mb-1 text-2xl font-bold leading-normal text-gray-700 dark:text-gray-300">
-                  {user.username}
-                </h3>
-                <h3 className="mb-1 text-2xl font-bold leading-normal text-gray-700 dark:text-gray-300">
-                  {user.email}
-                </h3>
-              </div>
-            )}
-            <div className="flex flex-row justify-around">
-              <button
-                className="text-black hover:scale-105"
-                onClick={() => {
-                  navigation(-1);
-                }}
-              >
-                กลับ
-              </button>
-              {editing ? null : (
+
+              <div className="text-center">
                 <button
-                  className="text-black hover:scale-105"
-                  onClick={handleEdit}
+                  onClick={handleSave}
+                  className="px-4 py-2 font-semibold text-white bg-green-900 rounded-md hover:bg-green-500"
                 >
-                  แก้ไข
+                  Save
+                </button>{" "}
+                <button
+                  className="px-4 py-2 font-semibold text-white bg-red-800 rounded-md hover:bg-red-500"
+                  onClick={() => {
+                    navigation(-1);
+                  }}
+                >
+                  Cancel
                 </button>
-              )}
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="text-center">
+              <button
+                onClick={handleEdit}
+                className="px-4 py-2 font-semibold text-white bg-green-500 rounded-md hover:bg-green-600"
+              >
+                Edit
+              </button>
+            </div>
+          )}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
