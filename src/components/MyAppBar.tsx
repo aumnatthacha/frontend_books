@@ -21,18 +21,17 @@ const MyAppBar: React.FC<AppBarProps> = ({ signOut }) => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "#556b2f" }}>
         <Toolbar>
-          {/* <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton> */}
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="/linkpage">
-              <Button color="inherit">link page</Button>
+            {roles?.find((role: Role) => role === "ADMIN") ? (
+              <>
+                <Link to="/linkpage">
+                  <Button color="inherit">link page</Button>
+                </Link>
+              </>
+            ) : null}
+
+            <Link to="/">
+              <Button color="inherit">Home</Button>
             </Link>
           </Typography>
           <Link to="/profile">

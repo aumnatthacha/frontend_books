@@ -1,9 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
 import { logOut } from "../../stores/slices/authSlice";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
-import { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import { Button, Grid } from "@mui/material";
 import Card from "@mui/material/Card";
@@ -12,6 +12,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import CardMedia from "@mui/material/CardMedia";
 import MyAppBar from "../../components/MyAppBar";
 import Swal from "sweetalert2";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 import { Role } from "../../interfaces/Role";
 
 interface Book {
@@ -30,9 +34,9 @@ interface Book {
 const Home = () => {
   const axiosPrivate = useAxiosPrivate();
   const roles = useAppSelector((state) => state.auth.roles);
-  console.log(roles);
   const dispatcher = useAppDispatch();
   const [books, setBooks] = useState<Book[]>([]);
+  const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   
 
   const signOut = async () => {
@@ -66,10 +70,19 @@ const Home = () => {
     }
   };
 
+
+  
+  const handleImageClick = (book: Book) => {
+    setSelectedBook(book);
+  };
+
+  const handleClosePopup = () => {
+    setSelectedBook(null);
+  };
+
   useEffect(() => {
     (async () => {
       const res = await axiosPrivate("/books");
-      console.log("DEBUG", res.data);
       setBooks(res.data);
     })();
   }, []);
@@ -84,10 +97,10 @@ const Home = () => {
           <Card
             key={book._id}
             sx={{
-              maxWidth: 250,
+              maxWidth: 200,
               width: "30%",
-              marginTop: "2rem",
-              borderRadius: "8px",
+              marginTop: "6rem",
+              borderRadius: "1px",
               marginLeft: "1rem",
               marginRight: "1rem",
             }}
@@ -96,20 +109,13 @@ const Home = () => {
               component="img"
               alt={book.title}
               image={book.profileUrl}
+              onClick={() => handleImageClick(book)}
             />
             <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
+              <Typography gutterBottom variant="h6" component="div">
                 {book.title}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                ISBN: {book.ISBN}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Author: {book.author}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Description: {book.description}
-              </Typography>
+
               <Typography variant="body2" color="text.secondary">
                 Price: ${book.price}
               </Typography>
@@ -117,14 +123,12 @@ const Home = () => {
             <Grid container spacing={2} alignItems="center">
               <Grid item xs={6}>
                 {roles?.find((role: Role) => role === "ADMIN") ? (
-                  <>
-                    <Link
-                      to={`/update/${book._id}`}
-                      style={{ textDecoration: "none" }}
-                    >
-                      <Button style={{ color: "green" }}>Update</Button>
-                    </Link>
-                  </>
+                  <Link
+                    to={`/update/${book._id}`}
+                    style={{ textDecoration: "none" }}
+                  >
+                    <Button style={{ color: "green" }}>Update</Button>
+                  </Link>
                 ) : null}
               </Grid>
               <Grid
@@ -133,23 +137,46 @@ const Home = () => {
                 sx={{ display: "flex", justifyContent: "flex-end" }}
               >
                 {roles?.find((role: Role) => role === "ADMIN") ? (
-                  <>
-                    <DeleteIcon
-                      sx={{
-                        color: "red",
-                        "&:hover": {
-                          color: "black",
-                        },
-                      }}
-                      onClick={() => handleDelete(book._id)}
-                    />
-                  </>
+                  <DeleteIcon
+                    sx={{
+                      color: "red",
+                      "&:hover": {
+                        color: "black",
+                      },
+                    }}
+                    onClick={() => handleDelete(book._id)}
+                  />
                 ) : null}
               </Grid>
             </Grid>
           </Card>
         ))}
       </div>
+      {selectedBook && (
+        <Dialog open={Boolean(selectedBook)} onClose={handleClosePopup}>
+          <DialogTitle>{selectedBook.title}</DialogTitle>
+          <DialogContent>
+            <img src={selectedBook.profileUrl} alt={selectedBook.title} />
+            <Typography variant="body2" color="text.secondary">
+              ISBN: {selectedBook.ISBN}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Author: {selectedBook.author}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Description: {selectedBook.description}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Price: ${selectedBook.price}
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClosePopup} color="primary">
+              Close
+            </Button>
+          </DialogActions>
+        </Dialog>
+      )}
     </>
   );
 };
