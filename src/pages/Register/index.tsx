@@ -1,8 +1,11 @@
+import axios from "../../apis/axios";
+// import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "../../apis/axios";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
 
-export interface Form {
+interface Form {
   username: string;
   password: string;
   name: string;
@@ -24,38 +27,52 @@ const Register = () => {
       User: "USER",
     },
   });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-
- 
 
   const onSubmitted = async () => {
-    const formData = new FormData();
-    // console.log(fileUpload);
+    try {
+      const formData = new FormData();
 
-    for (const [key, value] of Object.entries(formInput)) {
-      // console.log(`${key} ${value}`);
-      formData.append(key, value);
-    }
-  
-    const res = await axios.post("/auth/register", {
-      formInput
-    });
-    if (res.status == 200) {
-      // console.log("Registered successfully");
-      setFromInput({
-        username: "",
-        password: "",
-        name: "",
-        email: "",
-        role: {
-          User: "USER",
+      // Append form data
+      for (const [key, value] of Object.entries(formInput)) {
+        formData.append(key, value);
+      }
+
+      const res = await axios.post("/auth/register", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
         },
-        profileUrl: "",
       });
-      navigation("/registerSuccess");
+
+      if (res.status === 200) {
+        setFromInput({
+          username: "",
+          password: "",
+          name: "",
+          email: "",
+          role: {
+            User: "USER",
+          },
+          profileUrl: "",
+        });
+
+        Swal.fire({
+          icon: "success",
+          title: "Registration Successful",
+          text: "Welcome, " + formInput.username + "!",
+        });
+
+        navigation("/registerSuccess");
+      }
+    } catch (error) {
+      console.error("Error registering:", error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Registration Error",
+        text: "There was an error during registration. Please try again.",
+      });
     }
   };
-  // console.log(formInput.profileUrl);
 
   return (
     <main className="flex flex-1 flex-col drop-shadow-lg bg-white rounded-md p-3 mt-20 md:max-w-md md:mx-auto mx-5 mb-5">
@@ -72,7 +89,6 @@ const Register = () => {
         />
         <input
           type="file"
-          // name="file"
           id="profile"
           className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4
         file:rounded-full file:border-0
@@ -113,7 +129,7 @@ const Register = () => {
       </label>
       <input
         className="border-neutral-200 border-b-2 focus:outline-none focus:border-orange-500 my-2"
-        type="text"
+        type="password"
         name="password"
         id="password"
         placeholder="***************"
@@ -145,11 +161,10 @@ const Register = () => {
       </button>
       <Link
         to={"/login"}
-        className="text-end text-black hover:text-green-600"
+        className="text-end text-blue-500 hover:text-blue-300"
       >
         Login
       </Link>
-      
     </main>
   );
 };
