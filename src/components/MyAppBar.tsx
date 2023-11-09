@@ -17,6 +17,12 @@ interface AppBarProps {
 const MyAppBar: React.FC<AppBarProps> = ({ signOut }) => {
   const roles = useAppSelector((state) => state.auth.roles);
 
+  const buttonHoverStyles = {
+    "&:hover": {
+      backgroundColor: "#013220",
+    },
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: "#556b2f" }}>
@@ -25,31 +31,41 @@ const MyAppBar: React.FC<AppBarProps> = ({ signOut }) => {
             {roles?.find((role: Role) => role === "ADMIN") ? (
               <>
                 <Link to="/linkpage">
-                  <Button color="inherit">link page</Button>
+                  <Button sx={buttonHoverStyles} color="inherit">
+                    link page
+                  </Button>
                 </Link>
               </>
             ) : null}
 
             <Link to="/">
-              <Button color="inherit">Home</Button>
+              <Button sx={buttonHoverStyles} color="inherit">
+                Home
+              </Button>
             </Link>
           </Typography>
           <Link to="/profile">
-            <Button color="inherit">Profile</Button>
+            <Button sx={buttonHoverStyles} color="inherit">
+              Profile
+            </Button>
           </Link>
 
           {roles?.find((role: Role) => role === "ADMIN") ? (
             <>
               <Link to="/admin">
-                <Button color="inherit">Admin</Button>
+                <Button sx={buttonHoverStyles} color="inherit">
+                  Admin
+                </Button>
               </Link>
               <Link to="/add">
-                <Button color="inherit">Add</Button>
+                <Button sx={buttonHoverStyles} color="inherit">
+                  Add
+                </Button>
               </Link>
             </>
           ) : null}
 
-          <Button color="inherit" onClick={signOut}>
+          <Button sx={buttonHoverStyles} color="inherit" onClick={signOut}>
             Sign Out
           </Button>
         </Toolbar>

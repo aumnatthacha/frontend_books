@@ -1,11 +1,13 @@
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
+import { useAppDispatch } from "../../hooks/useStore";
 import { Grid, Button, Typography } from "@mui/material";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import MyAppBar from "../../components/MyAppBar";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { logOut } from "../../stores/slices/authSlice";
 
 interface FormData {
   author: string;
@@ -19,6 +21,7 @@ interface FormData {
 function Add() {
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
+  const dispatcher = useAppDispatch();
   const [formData, setFormData] = useState<FormData>({
     author: "",
     ISBN: "",
@@ -46,9 +49,14 @@ function Add() {
     navigate("/");
   };
 
+  const signOut = async () => {
+    dispatcher(logOut());
+    await axiosPrivate.post("/auth/logout");
+  };
+
   return (
     <>
-      <MyAppBar signOut={() => {}} />
+      <MyAppBar signOut={signOut} />
       <Box
         component="form"
         sx={{
@@ -65,7 +73,7 @@ function Add() {
           backgroundColor: "#bcb88a",
         }}
       >
-       <Typography
+        <Typography
           variant="h5"
           gutterBottom
           style={{ marginBottom: "50px", fontWeight: "bold" }}

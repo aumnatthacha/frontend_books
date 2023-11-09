@@ -140,19 +140,17 @@ const Register = () => {
           onSubmitted();
         }}
         type="button"
-        className="mt-8 mb-5   bg-emerald-500 p-2 rounded-xl text-white hover:bg-emerald-400"
+        className="mt-8 mb-5   bg-green-800 p-2 rounded-xl text-white hover:bg-green-600"
       >
-        สมัครสมาชิก
+        Sign up
       </button>
       <Link
         to={"/login"}
-        className="text-end text-blue-500 hover:text-blue-300"
+        className="text-end text-black hover:text-green-600"
       >
-        เข้าสู่ระบบ
+        Login
       </Link>
-      <p className="text-neutral-200 text-center">
-        Create By Sekkarin Singhayoo 2023{" "}
-      </p>
+      
     </main>
   );
 };

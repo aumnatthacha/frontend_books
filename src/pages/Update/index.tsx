@@ -101,7 +101,7 @@ function UpdateBook() {
         <Typography
           variant="h5"
           gutterBottom
-          style={{ marginBottom: "50px", fontWeight: "bold" }}
+          style={{ marginBottom: "50px", fontWeight: "bold"}}
         >
           UPDATE A BOOK
         </Typography>

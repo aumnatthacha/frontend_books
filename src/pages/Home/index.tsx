@@ -17,6 +17,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Role } from "../../interfaces/Role";
+import './index.css'
 
 interface Book {
   expanded: boolean;
@@ -37,7 +38,6 @@ const Home = () => {
   const dispatcher = useAppDispatch();
   const [books, setBooks] = useState<Book[]>([]);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
-  
 
   const signOut = async () => {
     dispatcher(logOut());
@@ -70,8 +70,6 @@ const Home = () => {
     }
   };
 
-
-  
   const handleImageClick = (book: Book) => {
     setSelectedBook(book);
   };
@@ -127,10 +125,20 @@ const Home = () => {
                     to={`/update/${book._id}`}
                     style={{ textDecoration: "none" }}
                   >
-                    <Button style={{ color: "green" }}>Update</Button>
+                    <Button
+                      sx={{
+                        color: "black",
+                        "&:hover": {
+                          backgroundColor: "#ffd700",
+                        },
+                      }}
+                    >
+                      Update
+                    </Button>
                   </Link>
                 ) : null}
               </Grid>
+
               <Grid
                 item
                 xs={6}
@@ -154,19 +162,41 @@ const Home = () => {
       </div>
       {selectedBook && (
         <Dialog open={Boolean(selectedBook)} onClose={handleClosePopup}>
-          <DialogTitle>{selectedBook.title}</DialogTitle>
-          <DialogContent>
-            <img src={selectedBook.profileUrl} alt={selectedBook.title} />
-            <Typography variant="body2" color="text.secondary">
+          <DialogTitle className="dialog-title">
+            {selectedBook.title}
+          </DialogTitle>
+          <DialogContent className="dialog-content">
+            <img
+              src={selectedBook.profileUrl}
+              alt={selectedBook.title}
+              className="dialog-image"
+            />
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              className="dialog-description"
+            >
               ISBN: {selectedBook.ISBN}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              className="dialog-description"
+            >
               Author: {selectedBook.author}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              className="dialog-description"
+            >
               Description: {selectedBook.description}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              className="dialog-price"
+            >
               Price: ${selectedBook.price}
             </Typography>
           </DialogContent>
