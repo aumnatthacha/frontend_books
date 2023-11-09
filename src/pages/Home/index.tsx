@@ -13,11 +13,9 @@ import CardMedia from "@mui/material/CardMedia";
 import MyAppBar from "../../components/MyAppBar";
 import Swal from "sweetalert2";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Role } from "../../interfaces/Role";
-import './index.css'
 
 interface Book {
   expanded: boolean;
@@ -162,49 +160,59 @@ const Home = () => {
       </div>
       {selectedBook && (
         <Dialog open={Boolean(selectedBook)} onClose={handleClosePopup}>
-          <DialogTitle className="dialog-title">
+          <DialogTitle
+            className="text-center"
+            style={{ fontSize: "24px", fontWeight: "bold" }}
+          >
             {selectedBook.title}
           </DialogTitle>
-          <DialogContent className="dialog-content">
-            <img
-              src={selectedBook.profileUrl}
-              alt={selectedBook.title}
-              className="dialog-image"
-            />
+
+          <DialogContent
+            className="dialog-content"
+            style={{ display: "grid", placeItems: "center" }}
+          >
+            <img src={selectedBook.profileUrl} alt={selectedBook.title} />
             <Typography
               variant="body2"
               color="text.secondary"
-              className="dialog-description"
+              className="dialog-content"
+              style={{ padding: "10px 0", color: "black" }}
             >
-              ISBN: {selectedBook.ISBN}
+              <strong style={{ fontSize: "16px" }}> ISBN:</strong>
+              {selectedBook.ISBN}
             </Typography>
             <Typography
               variant="body2"
               color="text.secondary"
-              className="dialog-description"
+              className="dialog-content"
+              style={{ padding: "10px 0", color: "black" }}
             >
-              Author: {selectedBook.author}
+              <strong style={{ fontSize: "16px" }}> Author: </strong>
+              {selectedBook.author}
             </Typography>
             <Typography
               variant="body2"
               color="text.secondary"
-              className="dialog-description"
+              className="dialog-content"
+              style={{ padding: "10px 0", color: "black" }}
             >
-              Description: {selectedBook.description}
+              <strong style={{ fontSize: "16px" }}>Description: </strong>{" "}
+              {selectedBook.description}
             </Typography>
             <Typography
               variant="body2"
               color="text.secondary"
-              className="dialog-price"
+              className="dialog-content"
+              style={{
+                padding: "10px 0",
+                color: "black",
+                fontWeight: "bold",
+                fontSize: "16px",
+              }}
             >
               Price: ${selectedBook.price}
             </Typography>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClosePopup} color="primary">
-              Close
-            </Button>
-          </DialogActions>
         </Dialog>
       )}
     </>
