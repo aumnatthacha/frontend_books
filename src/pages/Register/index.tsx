@@ -1,5 +1,4 @@
 import axios from "../../apis/axios";
-// import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -30,20 +29,13 @@ const Register = () => {
 
   const onSubmitted = async () => {
     try {
-      const formData = new FormData();
-
-      // Append form data
-      for (const [key, value] of Object.entries(formInput)) {
-        formData.append(key, value);
-      }
-
-      const res = await axios.post("/auth/register", formData, {
+      const res = await axios.post("/auth/register", ({...formInput,isAlive:true}), {
         headers: {
-          "Content-Type": "multipart/form-data",
+          "Content-Type": "application/json",
         },
       });
 
-      if (res.status === 200) {
+      if (res.status === 201) {
         setFromInput({
           username: "",
           password: "",
@@ -170,3 +162,6 @@ const Register = () => {
 };
 
 export default Register;
+
+
+
