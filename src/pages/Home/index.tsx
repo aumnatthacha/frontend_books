@@ -96,7 +96,7 @@ const Home = () => {
               maxWidth: 200,
               width: "30%",
               marginTop: "6rem",
-              borderRadius: "1px",
+              borderRadius: "10px",
               marginLeft: "1rem",
               marginRight: "1rem",
             }}
@@ -108,7 +108,7 @@ const Home = () => {
               onClick={() => handleImageClick(book)}
             />
             <CardContent>
-              <Typography gutterBottom variant="h6" component="div">
+              <Typography gutterBottom variant="h6" component="div"  className="NotoSansThai-Regular">
                 {book.title}
               </Typography>
 

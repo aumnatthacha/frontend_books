@@ -76,9 +76,9 @@ const Admin = () => {
                       <div>
                         <span>Profile</span>
                       </div>
-                      <div>
-                        <span>UserName</span>
-                      </div>
+                      {/* <div>
+                        <span>Password</span>
+                      </div> */}
                       <div>
                         <span>Email</span>
                       </div>
@@ -100,9 +100,9 @@ const Admin = () => {
                             />
                             <span>{item.name}</span>
                           </div>
-                          <div className="px-2 flex">
+                          {/* <div className="px-2 flex">
                             <span>{item.username}</span>
-                          </div>
+                          </div> */}
                           <div>
                             <span>{item.email}</span>
                           </div>
@@ -170,7 +170,7 @@ const Admin = () => {
                   }
                 />
               </label>
-              <label className="flex flex-col">
+              {/* <label className="flex flex-col">
                 <span className="text-sm font-bold mb-2">Username:</span>
                 <input
                   className="border rounded w-full py-2 px-3"
@@ -180,7 +180,7 @@ const Admin = () => {
                     setEditedUser({ ...editedUser, username: e.target.value })
                   }
                 />
-              </label>
+              </label> */}
             </div>
             <div className="flex justify-end mt-6 space-x-4">
               <button
