@@ -1,5 +1,6 @@
+// Home.tsx
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
 import { logOut } from "../../stores/slices/authSlice";
@@ -16,6 +17,9 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Role } from "../../interfaces/Role";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from '@mui/icons-material/Search';
 
 interface Book {
   expanded: boolean;
@@ -30,12 +34,13 @@ interface Book {
   _id: string;
 }
 
-const Home = () => {
+const Home: React.FC = () => {
   const axiosPrivate = useAxiosPrivate();
   const roles = useAppSelector((state) => state.auth.roles);
   const dispatcher = useAppDispatch();
   const [books, setBooks] = useState<Book[]>([]);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const signOut = async () => {
     dispatcher(logOut());
@@ -79,13 +84,32 @@ const Home = () => {
   useEffect(() => {
     (async () => {
       const res = await axiosPrivate("/books");
-      setBooks(res.data);
+      const filteredBooks = res.data.filter((book: { title: string }) =>
+        book.title.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setBooks(filteredBooks);
     })();
-  }, []);
+  }, [searchTerm]);
 
   return (
     <>
       <MyAppBar signOut={signOut} />
+
+      <div style={{ margin: '2rem', textAlign: 'right' }}>
+      <TextField
+        type="text"
+        placeholder="Search books..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        variant="outlined"
+        size="small"
+        style={{ width: '300px', marginRight: '8px' }}
+      />
+      <IconButton onClick={() => setSearchTerm('')} size="small">
+        <SearchIcon />
+      </IconButton>
+    </div>
+
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >
@@ -95,7 +119,7 @@ const Home = () => {
             sx={{
               maxWidth: 200,
               width: "30%",
-              marginTop: "6rem",
+              marginTop: "1rem",
               borderRadius: "10px",
               marginLeft: "1rem",
               marginRight: "1rem",
@@ -108,7 +132,7 @@ const Home = () => {
               onClick={() => handleImageClick(book)}
             />
             <CardContent>
-              <Typography gutterBottom variant="h6" component="div"  className="NotoSansThai-Regular">
+              <Typography gutterBottom variant="h6" component="div">
                 {book.title}
               </Typography>
 
@@ -160,23 +184,16 @@ const Home = () => {
       </div>
       {selectedBook && (
         <Dialog open={Boolean(selectedBook)} onClose={handleClosePopup}>
-          <DialogTitle
-            className="text-center"
-            style={{ fontSize: "24px", fontWeight: "bold" }}
-          >
+          <DialogTitle style={{ fontSize: "24px", fontWeight: "bold" }}>
             {selectedBook.title}
           </DialogTitle>
 
-          <DialogContent
-            className="dialog-content"
-            style={{ display: "grid", placeItems: "center" }}
-          >
+          <DialogContent style={{ display: "grid", placeItems: "center" }}>
             <img src={selectedBook.profileUrl} alt={selectedBook.title} />
             <Typography
               variant="body2"
               color="text.secondary"
-              className="dialog-content"
-              style={{ padding: "10px 0", color: "black" }}
+              style={{ padding: "10px 0" }}
             >
               <strong style={{ fontSize: "16px" }}> ISBN:</strong>
               {selectedBook.ISBN}
@@ -184,8 +201,7 @@ const Home = () => {
             <Typography
               variant="body2"
               color="text.secondary"
-              className="dialog-content"
-              style={{ padding: "10px 0", color: "black" }}
+              style={{ padding: "10px 0" }}
             >
               <strong style={{ fontSize: "16px" }}> Author: </strong>
               {selectedBook.author}
@@ -193,8 +209,7 @@ const Home = () => {
             <Typography
               variant="body2"
               color="text.secondary"
-              className="dialog-content"
-              style={{ padding: "10px 0", color: "black" }}
+              style={{ padding: "10px 0" }}
             >
               <strong style={{ fontSize: "16px" }}>Description: </strong>{" "}
               {selectedBook.description}
@@ -202,10 +217,8 @@ const Home = () => {
             <Typography
               variant="body2"
               color="text.secondary"
-              className="dialog-content"
               style={{
                 padding: "10px 0",
-                color: "black",
                 fontWeight: "bold",
                 fontSize: "16px",
               }}
