@@ -19,7 +19,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { Role } from "../../interfaces/Role";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 
 interface Book {
   expanded: boolean;
@@ -95,20 +95,20 @@ const Home: React.FC = () => {
     <>
       <MyAppBar signOut={signOut} />
 
-      <div style={{ margin: '2rem', textAlign: 'right' }}>
-      <TextField
-        type="text"
-        placeholder="Search books..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        variant="outlined"
-        size="small"
-        style={{ width: '300px', marginRight: '8px' }}
-      />
-      <IconButton onClick={() => setSearchTerm('')} size="small">
-        <SearchIcon />
-      </IconButton>
-    </div>
+      <div style={{ margin: "2rem", textAlign: "right" }}>
+        <TextField
+          type="text"
+          placeholder="Search books..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          variant="outlined"
+          size="small"
+          style={{ width: "300px", marginRight: "8px" }}
+        />
+        <IconButton onClick={() => setSearchTerm("")} size="small">
+          <SearchIcon />
+        </IconButton>
+      </div>
 
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
