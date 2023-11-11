@@ -185,7 +185,14 @@ const Home: React.FC = () => {
       </div>
       {selectedBook && (
         <Dialog open={Boolean(selectedBook)} onClose={handleClosePopup}>
-          <DialogTitle style={{ fontSize: "24px", fontWeight: "bold" }}>
+          <DialogTitle
+            style={{
+              fontSize: "24px",
+              fontWeight: "bold",
+              color: "black",
+              textAlign: "center",
+            }}
+          >
             {selectedBook.title}
           </DialogTitle>
 
@@ -193,7 +200,7 @@ const Home: React.FC = () => {
             <img src={selectedBook.profileUrl} alt={selectedBook.title} />
             <Typography
               variant="body2"
-              color="text.secondary"
+              color="text.black"
               style={{ padding: "10px 0" }}
             >
               <strong style={{ fontSize: "16px" }}> ISBN:</strong>
@@ -201,7 +208,7 @@ const Home: React.FC = () => {
             </Typography>
             <Typography
               variant="body2"
-              color="text.secondary"
+              color="text.black"
               style={{ padding: "10px 0" }}
             >
               <strong style={{ fontSize: "16px" }}> Author: </strong>
@@ -209,7 +216,7 @@ const Home: React.FC = () => {
             </Typography>
             <Typography
               variant="body2"
-              color="text.secondary"
+              color="text.black"
               style={{ padding: "10px 0" }}
             >
               <strong style={{ fontSize: "16px" }}>Description: </strong>{" "}
@@ -217,7 +224,7 @@ const Home: React.FC = () => {
             </Typography>
             <Typography
               variant="body2"
-              color="text.secondary"
+              color="text.black"
               style={{
                 padding: "10px 0",
                 fontWeight: "bold",
