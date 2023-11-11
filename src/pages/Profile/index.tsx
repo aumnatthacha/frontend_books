@@ -7,6 +7,9 @@ import { logOut } from "../../stores/slices/authSlice";
 import Swal from "sweetalert2";
 
 export interface User {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [x: string]: any;
+
   email: string;
   name: string;
   profileUrl: string;
