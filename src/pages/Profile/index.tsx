@@ -118,25 +118,6 @@ const Profile = () => {
                   className="w-full px-3 py-2 border rounded-md"
                 />
               </div>
-
-              {/* <div className="mb-4">
-                <label
-                  htmlFor="username"
-                  className="block text-gray-700 font-semibold"
-                >
-                  UserName
-                </label>
-                <input
-                  type="text"
-                  id="username"
-                  value={user.username}
-                  onChange={(e) =>
-                    setUser({ ...user, username: e.target.value })
-                  }
-                  className="w-full px-3 py-2 border rounded-md"
-                />
-              </div> */}
-
               <div className="mb-4">
                 <label
                   htmlFor="email"

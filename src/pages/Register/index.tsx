@@ -1,7 +1,6 @@
 import axios from "../../apis/axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 
 interface Form {
@@ -29,11 +28,15 @@ const Register = () => {
 
   const onSubmitted = async () => {
     try {
-      const res = await axios.post("/auth/register", ({...formInput,isAlive:true}), {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const res = await axios.post(
+        "/auth/register",
+        { ...formInput, isAlive: true },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (res.status === 201) {
         setFromInput({
@@ -46,23 +49,10 @@ const Register = () => {
           },
           profileUrl: "",
         });
-
-        Swal.fire({
-          icon: "success",
-          title: "Registration Successful",
-          text: "Welcome, " + formInput.username + "!",
-        });
-
         navigation("/registerSuccess");
       }
     } catch (error) {
       console.error("Error registering:", error);
-
-      Swal.fire({
-        icon: "error",
-        title: "Registration Error",
-        text: "There was an error during registration. Please try again.",
-      });
     }
   };
 
@@ -80,10 +70,23 @@ const Register = () => {
           alt="Current profile photo"
         />
       </div>
-
-      <label htmlFor="" className="font-bold text-lg text-neutral-500">
-        Email
+      <label
+        htmlFor="profileUrl"
+        className="font-bold text-lg text-neutral-500"
+      >
+        profileUrl
       </label>
+      <input
+        className="border-neutral-200 border-b-2 my-2  focus:outline-none focus:border-orange-500"
+        type="text"
+        name="profileUrl"
+        id="profileUrl"
+        placeholder="profileUrl"
+        onChange={(e) => {
+          setFromInput((value) => ({ ...value, profileUrl: e.target.value }));
+        }}
+      />
+
       <label htmlFor="email" className="font-bold text-lg text-neutral-500">
         Email
       </label>
@@ -156,6 +159,3 @@ const Register = () => {
 };
 
 export default Register;
-
-
-

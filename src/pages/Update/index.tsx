@@ -38,7 +38,7 @@ function UpdateBook() {
         Swal.fire("Success", "Book updated successfully", "success").then(
           () => {
             window.location.href = "/";
-            console.log("Book updated successfully.");
+            // console.log("Book updated successfully.");
           }
         );
       } else {
@@ -57,7 +57,7 @@ function UpdateBook() {
         const response = await axiosPrivate(`/books/${id}`);
         if (response.status === 200) {
           const bookData = response.data;
-          console.log(response.data);
+          // console.log(response.data);
           setFormData({
             author: bookData.author,
             ISBN: bookData.ISBN,

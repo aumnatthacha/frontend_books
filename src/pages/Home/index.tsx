@@ -21,6 +21,7 @@ import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import CircularProgress from "@mui/material/CircularProgress";
+import AnimationSkeleton from "../../components/AnimationSkeleton";
 
 interface Book {
   expanded: boolean;
@@ -207,6 +208,11 @@ const Home: React.FC = () => {
             </Grid>
           </Card>
         ))}
+
+        {loading && <AnimationSkeleton />}
+        {loading && <AnimationSkeleton />}
+        {loading && <AnimationSkeleton />}
+
       </div>
       {selectedBook && (
         <Dialog open={Boolean(selectedBook)} onClose={handleClosePopup}>

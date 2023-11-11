@@ -11,7 +11,7 @@ const PersistLogin = () => {
 
   useEffect(() => {
     const verifyRefreshToken = async () => {
-      console.log("verifyRefreshToken");
+      // console.log("verifyRefreshToken");
 
       try {
         await refresh();

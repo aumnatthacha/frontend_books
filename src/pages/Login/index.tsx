@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "../../apis/axios";
 import { useAppDispatch } from "../../hooks/useStore";
 import { setCredentials } from "../../stores/slices/authSlice";
-import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 
 interface Form {
@@ -34,8 +33,6 @@ const Login = () => {
         withCredentials: true,
       }
     );
-    console.log(res.data);
-
     if (res.status === 200) {
       dispatch(
         setCredentials({
@@ -48,13 +45,6 @@ const Login = () => {
         password: "",
       });
       navigation(from, { replace: true });
-
-      // เพิ่ม SweetAlert2 เมื่อ login สำเร็จ
-      Swal.fire({
-        icon: "success",
-        title: "Login Successful",
-        text: "Welcome back, " + formInput.username + "!",
-      });
     }
   };
   return (

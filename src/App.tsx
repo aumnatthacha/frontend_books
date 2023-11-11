@@ -25,7 +25,9 @@ function App() {
         {/* public routes */}
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
-        <Route path="myAppBar" element={<MyAppBar />} />
+        <Route path="myAppBar" element={<MyAppBar signOut={function (): void {
+          throw new Error("Function not implemented.");
+        } } />} />
         <Route path="registerSuccess" element={<RegisterSuccess />} />
         <Route path="linkpage" element={<LinkPage />} />
         <Route path="unauthorized" element={<Unauthorized />} />
