@@ -20,6 +20,7 @@ import { Role } from "../../interfaces/Role";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
+import CircularProgress from "@mui/material/CircularProgress";
 
 interface Book {
   expanded: boolean;
@@ -41,6 +42,7 @@ const Home: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [loading, setLoading] = useState(true);
 
   const signOut = async () => {
     dispatcher(logOut());
@@ -81,19 +83,43 @@ const Home: React.FC = () => {
     setSelectedBook(null);
   };
 
+  // useEffect(() => {
+  //   (async () => {
+  //     const res = await axiosPrivate("/books");
+  //     const filteredBooks = res.data.filter((book: { title: string }) =>
+  //       book.title.toLowerCase().includes(searchTerm.toLowerCase())
+  //     );
+  //     setBooks(filteredBooks);
+  //   })();
+  // }, [searchTerm]);
+
   useEffect(() => {
     (async () => {
-      const res = await axiosPrivate("/books");
-      const filteredBooks = res.data.filter((book: { title: string }) =>
-        book.title.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      setBooks(filteredBooks);
+      try {
+        setLoading(true);
+
+        const res = await axiosPrivate("/books");
+        const filteredBooks = res.data.filter((book: { title: string }) =>
+          book.title.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setLoading(false);
+
+        setBooks(filteredBooks);
+      } catch (error) {
+        console.error("Error loading books:", error);
+        setLoading(false);
+      }
     })();
   }, [searchTerm]);
 
   return (
     <>
       <MyAppBar signOut={signOut} />
+      {loading && (
+        <div style={{ textAlign: "center", marginTop: "1rem" }}>
+          <CircularProgress color="success" size="lg" />
+        </div>
+      )}
 
       <div style={{ margin: "2rem", textAlign: "right" }}>
         <TextField
@@ -109,7 +135,6 @@ const Home: React.FC = () => {
           <SearchIcon />
         </IconButton>
       </div>
-
       <div
         style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
       >

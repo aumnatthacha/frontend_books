@@ -79,17 +79,11 @@ const Register = () => {
           }
           alt="Current profile photo"
         />
-        <input
-          type="file"
-          id="profile"
-          className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4
-        file:rounded-full file:border-0
-        file:text-sm file:font-semibold
-        file:bg-violet-50 file:text-violet-700
-        hover:file:bg-violet-100 my-5"
-        />
       </div>
 
+      <label htmlFor="" className="font-bold text-lg text-neutral-500">
+        Email
+      </label>
       <label htmlFor="email" className="font-bold text-lg text-neutral-500">
         Email
       </label>

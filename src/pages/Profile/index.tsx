@@ -1,24 +1,15 @@
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useAppSelector, useAppDispatch } from "../../hooks/useStore";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import MyAppBar from "../../components/MyAppBar";
 import { logOut } from "../../stores/slices/authSlice";
 import Swal from "sweetalert2";
 
-
 export interface User {
-  _id: string;
   email: string;
   name: string;
-  username: string;
   profileUrl: string;
-  role: {
-    Admin: string;
-    User: string;
-  };
-  isAlive: boolean;
-  __v: number;
 }
 
 const Profile = () => {
@@ -27,14 +18,9 @@ const Profile = () => {
   const dispatcher = useAppDispatch();
   const username = useAppSelector((state) => state.auth.user);
   const [user, setUser] = useState<User>({
-    _id: "",
     email: "",
     name: "",
-    username: "",
     profileUrl: "",
-    role: { Admin: "", User: "" },
-    isAlive: false,
-    __v: 0,
   });
   const [editing, setEditing] = useState(false);
   // const navigation = useNavigate();
@@ -50,7 +36,6 @@ const Profile = () => {
     setEditing(true);
   };
 
-
   const handleSave = async () => {
     try {
       const updatedUser = await axiosPrivate.patch(`/users`, user);
@@ -61,8 +46,6 @@ const Profile = () => {
         title: "Updated Successfully",
         text: "User information has been updated successfully.",
       });
-
-     
     } catch (error) {
       console.error("Error saving changes:", error);
       Swal.fire({
@@ -72,7 +55,6 @@ const Profile = () => {
       });
     }
   };
-
 
   const signOut = async () => {
     dispatcher(logOut());
@@ -95,7 +77,7 @@ const Profile = () => {
               className="w-20 h-20 rounded-full mx-auto"
             />
             <h1 className="mt-2 text-xl font-semibold">{user.name}</h1>
-            <h2 className="text-sm text-gray-600">{user.username}</h2>
+            {/* <h2 className="text-sm text-gray-600">{user.username}</h2> */}
             <h2 className="text-sm text-gray-600">{user.email}</h2>
           </div>
 
@@ -134,7 +116,7 @@ const Profile = () => {
                 />
               </div>
 
-              <div className="mb-4">
+              {/* <div className="mb-4">
                 <label
                   htmlFor="username"
                   className="block text-gray-700 font-semibold"
@@ -150,7 +132,7 @@ const Profile = () => {
                   }
                   className="w-full px-3 py-2 border rounded-md"
                 />
-              </div>
+              </div> */}
 
               <div className="mb-4">
                 <label
@@ -190,11 +172,11 @@ const Profile = () => {
                 className="px-4 py-2 font-semibold text-white bg-green-900 rounded-md hover:bg-green-600"
               >
                 Edit
-              </button>{' '}
+              </button>{" "}
               <button
                 onClick={handleCancel}
                 className="px-4 py-2 font-semibold text-white bg-red-800 rounded-md hover:bg-red-500"
-                >
+              >
                 Cancel
               </button>
             </div>
