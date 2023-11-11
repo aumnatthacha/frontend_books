@@ -120,9 +120,10 @@ const Home: React.FC = () => {
               maxWidth: 200,
               width: "30%",
               marginTop: "1rem",
-              borderRadius: "10px",
+              borderRadius: "1px",
               marginLeft: "1rem",
               marginRight: "1rem",
+              boxShadow: "none",
             }}
           >
             <CardMedia

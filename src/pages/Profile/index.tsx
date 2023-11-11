@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useAppSelector, useAppDispatch } from "../../hooks/useStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; 
 import MyAppBar from "../../components/MyAppBar";
 import { logOut } from "../../stores/slices/authSlice";
+import Swal from "sweetalert2";
+
 
 export interface User {
   _id: string;
@@ -21,6 +23,7 @@ export interface User {
 
 const Profile = () => {
   const axiosPrivate = useAxiosPrivate();
+  const navigate = useNavigate();
   const dispatcher = useAppDispatch();
   const username = useAppSelector((state) => state.auth.user);
   const [user, setUser] = useState<User>({
@@ -34,7 +37,7 @@ const Profile = () => {
     __v: 0,
   });
   const [editing, setEditing] = useState(false);
-  const navigation = useNavigate();
+  // const navigation = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -47,21 +50,38 @@ const Profile = () => {
     setEditing(true);
   };
 
+
   const handleSave = async () => {
     try {
       const updatedUser = await axiosPrivate.patch(`/users`, user);
       setUser(updatedUser.data);
       setEditing(false);
+      Swal.fire({
+        icon: "success",
+        title: "Updated Successfully",
+        text: "User information has been updated successfully.",
+      });
+
+     
     } catch (error) {
-      console.error("เกิดข้อผิดพลาดในการบันทึกการแก้ไข:", error);
+      console.error("Error saving changes:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Unable to update user information.",
+      });
     }
   };
+
 
   const signOut = async () => {
     dispatcher(logOut());
     await axiosPrivate.post("/auth/logout");
   };
 
+  const handleCancel = () => {
+    navigate("/");
+  };
 
   return (
     <>
@@ -72,7 +92,6 @@ const Profile = () => {
           <div className="text-center mb-4">
             <img
               src={user.profileUrl}
-              alt="User"
               className="w-20 h-20 rounded-full mx-auto"
             />
             <h1 className="mt-2 text-xl font-semibold">{user.name}</h1>
@@ -158,9 +177,7 @@ const Profile = () => {
                 </button>{" "}
                 <button
                   className="px-4 py-2 font-semibold text-white bg-red-800 rounded-md hover:bg-red-500"
-                  onClick={() => {
-                    navigation(-1);
-                  }}
+                  onClick={handleCancel}
                 >
                   Cancel
                 </button>
@@ -173,6 +190,12 @@ const Profile = () => {
                 className="px-4 py-2 font-semibold text-white bg-green-900 rounded-md hover:bg-green-600"
               >
                 Edit
+              </button>{' '}
+              <button
+                onClick={handleCancel}
+                className="px-4 py-2 font-semibold text-white bg-red-800 rounded-md hover:bg-red-500"
+                >
+                Cancel
               </button>
             </div>
           )}
