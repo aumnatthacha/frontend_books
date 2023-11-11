@@ -4,21 +4,27 @@ import { User } from "../Profile";
 import MyAppBar from "../../components/MyAppBar";
 import { logOut } from "../../stores/slices/authSlice";
 import { useAppDispatch } from "../../hooks/useStore";
+import CommentSkeleton from "../../components/CommentSkeleton";
 
 const Admin = () => {
   const axiosPrivate = useAxiosPrivate();
   const dispatcher = useAppDispatch();
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User[]>([]);
   const [editedUser, setEditedUser] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
+
         const res = await axiosPrivate("/users");
         setUser(res.data);
         console.log(res.data);
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -62,9 +68,20 @@ const Admin = () => {
   return (
     <>
       <MyAppBar signOut={signOut} />
+
+      {loading && (
+        <div style={{ textAlign: "center", marginTop: "1rem" }}>
+          <CommentSkeleton />
+        </div>
+      )}
+
       <div className="bg-gray-50 min-h-screen">
         <div>
           <div className="p-4">
+            {loading && <CommentSkeleton />}
+            {loading && <CommentSkeleton />}
+            {loading && <CommentSkeleton />}
+
             <div className="bg-white p-4 rounded-md">
               <div>
                 <h2 className="mb-4 text-xl font-bold text-gray-700">

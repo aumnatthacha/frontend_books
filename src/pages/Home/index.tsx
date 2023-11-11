@@ -84,15 +84,6 @@ const Home: React.FC = () => {
     setSelectedBook(null);
   };
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const res = await axiosPrivate("/books");
-  //     const filteredBooks = res.data.filter((book: { title: string }) =>
-  //       book.title.toLowerCase().includes(searchTerm.toLowerCase())
-  //     );
-  //     setBooks(filteredBooks);
-  //   })();
-  // }, [searchTerm]);
 
   useEffect(() => {
     (async () => {

@@ -1,15 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
+import { CircularProgress } from "@mui/material"; // เพิ่มนี้
+
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import { useAppSelector, useAppDispatch } from "../../hooks/useStore";
 import { useNavigate } from "react-router-dom";
 import MyAppBar from "../../components/MyAppBar";
 import { logOut } from "../../stores/slices/authSlice";
 import Swal from "sweetalert2";
+import AnimationSkeleton from "../../components/AnimationSkeleton";
 
 export interface User {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [x: string]: any;
-
   email: string;
   name: string;
   profileUrl: string;
@@ -18,6 +20,7 @@ export interface User {
 const Profile = () => {
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const dispatcher = useAppDispatch();
   const username = useAppSelector((state) => state.auth.user);
   const [user, setUser] = useState<User>({
@@ -26,13 +29,21 @@ const Profile = () => {
     profileUrl: "",
   });
   const [editing, setEditing] = useState(false);
-  // const navigation = useNavigate();
 
   useEffect(() => {
-    (async () => {
-      const res = await axiosPrivate(`/users/${username}`);
-      setUser(res.data);
-    })();
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const res = await axiosPrivate(`/users/${username}`);
+        setUser(res.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error loading user:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, [axiosPrivate, username]);
 
   const handleEdit = () => {
@@ -71,6 +82,14 @@ const Profile = () => {
   return (
     <>
       <MyAppBar signOut={signOut} />
+
+      {loading && (
+        <div style={{ textAlign: "center", marginTop: "1rem" }}>
+          <CircularProgress color="success" size="lg" />
+        </div>
+      )}
+
+      {loading && user.profileUrl !== "" && <AnimationSkeleton />}
 
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <div className="w-full max-w-lg p-4 rounded-md shadow-md bg-white">
