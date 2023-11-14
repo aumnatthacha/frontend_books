@@ -1,7 +1,7 @@
-import axios from "../../apis/axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "sweetalert2/dist/sweetalert2.css";
+import axios from "../../apis/axios";
+import LinearProgress from "@mui/material/LinearProgress";
 
 interface Form {
   username: string;
@@ -26,8 +26,13 @@ const Register = () => {
     },
   });
 
+  const [loading, setLoading] = useState(false);  
+
   const onSubmitted = async () => {
     try {
+
+      setLoading(true);
+
       const res = await axios.post(
         "/auth/register",
         { ...formInput, isAlive: true },
@@ -53,10 +58,14 @@ const Register = () => {
       }
     } catch (error) {
       console.error("Error registering:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
+    <>
+    {loading && <LinearProgress />}
     <main className="flex flex-1 flex-col drop-shadow-lg bg-white rounded-md p-3 mt-20 md:max-w-md md:mx-auto mx-5 mb-5">
       <h6 className="text-2xl font-bold text-center">Sign Up</h6>
       <div className="flex flex-col justify-center items-center mt-5">
@@ -139,14 +148,15 @@ const Register = () => {
           setFromInput((value) => ({ ...value, name: e.target.value }));
         }}
       />
-      <button
+       <button
         onClick={() => {
           onSubmitted();
         }}
         type="button"
-        className="mt-8 mb-5   bg-green-800 p-2 rounded-xl text-white hover:bg-green-600"
+        className="mt-8 mb-5 bg-green-800 p-2 rounded-xl text-white hover:bg-green-600"
+        disabled={loading}
       >
-        Sign up
+        {loading ? "Signing up..." : "Sign up"}
       </button>
       <Link
         to={"/login"}
@@ -155,6 +165,8 @@ const Register = () => {
         Login
       </Link>
     </main>
+    </>
+    
   );
 };
 

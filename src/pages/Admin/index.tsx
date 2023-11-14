@@ -104,7 +104,7 @@ const Admin = () => {
                       {user.map((item) => (
                         <div
                           key={item._id}
-                          className="flex justify-between border-t text-sm font-normal mt-4 space-x-4"
+                          className="user-row flex justify-between border-t text-sm font-normal mt-4 space-x-4 hover:bg-gray-100 transform hover:scale-105 transition-transform duration-300 ease-in-out"
                         >
                           <div className="px-2 flex items-center">
                             <img
@@ -118,7 +118,10 @@ const Admin = () => {
                             <span>{item.email}</span>
                           </div>
                           <div className="px-2">
-                            <button onClick={() => handleEdit(item)}>
+                            <button
+                              onClick={() => handleEdit(item)}
+                              className="hover:text-blue-500"
+                            >
                               Edit
                             </button>
                           </div>

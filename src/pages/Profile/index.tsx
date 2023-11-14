@@ -24,6 +24,7 @@ const Profile = () => {
   const dispatcher = useAppDispatch();
   const username = useAppSelector((state) => state.auth.user);
   const [user, setUser] = useState<User>({
+    _id: "",
     email: "",
     name: "",
     profileUrl: "",
@@ -36,6 +37,7 @@ const Profile = () => {
         setLoading(true);
         const res = await axiosPrivate(`/users/${username}`);
         setUser(res.data);
+        console.log(res.data)
         setLoading(false);
       } catch (error) {
         console.error("Error loading user:", error);
@@ -79,6 +81,40 @@ const Profile = () => {
     navigate("/");
   };
 
+  const handleDelete = async () => {
+    // ใช้ SweetAlert เพื่อแสดงข้อความยืนยัน
+    const confirmResult = await Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this user!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'Cancel',
+    });
+  
+    // ถ้าผู้ใช้กดปุ่ม Yes
+    if (confirmResult.isConfirmed) {
+      try {
+        // ทำการลบผู้ใช้
+        await axiosPrivate.delete(`/users/${user._id}`);
+        signOut(); 
+        Swal.fire({
+          icon: "success",
+          title: "Deleted Successfully",
+          text: "User has been deleted successfully.",
+        });
+      } catch (error) {
+        console.error("Error deleting user:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Unable to delete user.",
+        });
+      }
+    }
+  };
+  
+
   return (
     <>
       <MyAppBar signOut={signOut} />
@@ -96,7 +132,7 @@ const Profile = () => {
           <div className="text-center mb-4">
             <img
               src={user.profileUrl}
-              className="w-20 h-20 rounded-full mx-auto"
+              className="w-40 h-40 rounded-full mx-auto"
             />
             <h1 className="mt-2 text-xl font-semibold">{user.name}</h1>
             {/* <h2 className="text-sm text-gray-600">{user.username}</h2> */}
@@ -169,18 +205,24 @@ const Profile = () => {
               </div>
             </div>
           ) : (
-            <div className="text-center">
+            <div className="text-center flex flex-col items-center">
               <button
                 onClick={handleEdit}
-                className="px-4 py-2 font-semibold text-white bg-green-900 rounded-md hover:bg-green-600"
+                className="w-full px-4 py-2 font-semibold text-white bg-green-900 rounded-md hover:bg-green-600 mb-2"
               >
                 Edit
-              </button>{" "}
+              </button>
               <button
                 onClick={handleCancel}
-                className="px-4 py-2 font-semibold text-white bg-red-800 rounded-md hover:bg-red-500"
+                className="w-full px-4 py-2 font-semibold text-white bg-yellow-600 rounded-md hover:bg-yellow-500 mb-2"
               >
                 Cancel
+              </button>
+              <button
+                onClick={handleDelete}
+                className="w-full px-4   py-2 font-semibold text-white bg-red-800 rounded-md hover:bg-red-500"
+              >
+                Delete
               </button>
             </div>
           )}

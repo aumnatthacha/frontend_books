@@ -119,11 +119,12 @@ function UpdateBook() {
                 <img
                   src={formData.profileUrl}
                   alt="Book Cover"
-                  style={{
-                    maxWidth: "100%",
-                    maxHeight: "200px",
-                    objectFit: "cover",
-                  }}
+                  className={"rounded-md drop-shadow-md w-25 h-60"}
+                  // style={{
+                  //   maxWidth: "100%",
+                  //   maxHeight: "200px",
+                  //   objectFit: "cover",
+                  // }}
                 />
               )}
               <TextField

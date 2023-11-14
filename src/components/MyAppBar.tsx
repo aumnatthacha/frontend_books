@@ -25,25 +25,35 @@ const MyAppBar: React.FC<AppBarProps> = ({ signOut }) => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: "#556b2f" }}>
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            {roles?.find((role: Role) => role === "ADMIN") ? (
-              <>
-                <Link to="/linkpage">
-                  <Button sx={buttonHoverStyles} color="inherit">
-                    link page
-                  </Button>
-                </Link>
-              </>
-            ) : null}
-
+      <AppBar position="static" sx={{ backgroundColor: "#556b2f", height: "80px"}}>
+        <Toolbar sx={{ paddingTop: "6px" }}>
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              flexGrow: 1,
+            }}
+          >
             <Link to="/">
-              <Button sx={buttonHoverStyles} color="inherit">
-                Home
-              </Button>
+              <img
+                src="https://cdn-icons-png.flaticon.com/512/562/562132.png"
+                alt="Home"
+                className="w-16 h-16"
+              />
             </Link>
+
+            {roles?.find((role: Role) => role === "ADMIN") && (
+              <Link to="/linkpage">
+                <Button sx={buttonHoverStyles} color="inherit">
+                  link page
+                </Button>
+              </Link>
+            )}
           </Typography>
+
           <Link to="/profile">
             <Button sx={buttonHoverStyles} color="inherit">
               Profile
@@ -73,5 +83,6 @@ const MyAppBar: React.FC<AppBarProps> = ({ signOut }) => {
     </Box>
   );
 };
+
 
 export default MyAppBar;
