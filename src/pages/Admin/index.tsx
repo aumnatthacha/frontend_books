@@ -5,6 +5,7 @@ import MyAppBar from "../../components/MyAppBar";
 import { logOut } from "../../stores/slices/authSlice";
 import { useAppDispatch } from "../../hooks/useStore";
 import CommentSkeleton from "../../components/CommentSkeleton";
+import Swal from "sweetalert2";
 
 const Admin = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -23,6 +24,7 @@ const Admin = () => {
         console.log(res.data);
       } catch (error) {
         console.error("Error fetching data:", error);
+        Swal.fire("Error", "An error something.", "error");
       } finally {
         setLoading(false);
       }
@@ -37,6 +39,7 @@ const Admin = () => {
       await axiosPrivate.post("/auth/logout");
     } catch (error) {
       console.error("Error logging out:", error);
+      Swal.fire("Error", "An error something.", "error");
     }
   };
 
@@ -57,6 +60,7 @@ const Admin = () => {
 
       setEditedUser(null);
     } catch (error) {
+      Swal.fire("Error", "An error something.", "error");
       console.error("Error saving edit:", error);
     }
   };

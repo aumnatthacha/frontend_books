@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../hooks/useStore";
 import { setCredentials } from "../../stores/slices/authSlice";
 import LinearProgress from "@mui/material/LinearProgress";
 import "sweetalert2/dist/sweetalert2.css";
+import Swal from "sweetalert2";
 
 interface Form {
   username: string;
@@ -23,6 +24,7 @@ const Login = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  
 
   const onSubmitted = async () => {
     try {
@@ -53,7 +55,7 @@ const Login = () => {
         navigation(from, { replace: true });
       }
     } catch (error) {
-      //
+      Swal.fire("Error", "An error something.", "error");
     } finally {
       setLoading(false);
     }

@@ -97,6 +97,7 @@ const Home: React.FC = () => {
 
         setBooks(filteredBooks);
       } catch (error) {
+        Swal.fire("Error", "An error something.", "error");
         console.error("Error loading books:", error);
         setLoading(false);
       }

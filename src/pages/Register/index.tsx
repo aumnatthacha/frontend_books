@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "../../apis/axios";
 import LinearProgress from "@mui/material/LinearProgress";
+import Swal from "sweetalert2";
 
 interface Form {
   username: string;
@@ -57,6 +58,7 @@ const Register = () => {
         navigation("/registerSuccess");
       }
     } catch (error) {
+      Swal.fire("Error", "An error something.", "error");
       console.error("Error registering:", error);
     } finally {
       setLoading(false);
