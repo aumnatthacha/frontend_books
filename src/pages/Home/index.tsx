@@ -105,13 +105,12 @@ const Home: React.FC = () => {
 
   return (
     <>
-      
       <MyAppBar signOut={signOut} />
       {loading && (
         <div style={{ textAlign: "center", marginTop: "1rem" }}>
           <CircularProgress color="success" size="lg" />
         </div>
-      )} 
+      )}
       <div style={{ margin: "2rem", textAlign: "right" }}>
         <TextField
           type="text"
@@ -127,7 +126,12 @@ const Home: React.FC = () => {
         </IconButton>
       </div>
       <div
-        style={{ display: "flex", flexWrap: "wrap", justifyContent: "flex-start" }}
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "center",
+          flexDirection:"row"
+        }}
       >
         {books.map((book) => (
           <Card
@@ -141,7 +145,7 @@ const Home: React.FC = () => {
               marginRight: "1rem",
               boxShadow: "none",
             }}
-            className={"drop-shadow-md hover:scale-[1.01]"}
+            className={"drop-shadow-md hover:scale-[1.01] "}
           >
             <CardMedia
               component="img"
@@ -149,7 +153,6 @@ const Home: React.FC = () => {
               image={book.profileUrl}
               onClick={() => handleImageClick(book)}
               className={"rounded-md drop-shadow-md w-full h-60"}
-              
             />
             <CardContent>
               <Typography gutterBottom variant="h6" component="div">
@@ -220,9 +223,11 @@ const Home: React.FC = () => {
           </DialogTitle>
 
           <DialogContent style={{ display: "grid", placeItems: "center" }}>
-            <img src={selectedBook.profileUrl}
-             className={"rounded-md drop-shadow-md w-25 h-60"}
-            alt={selectedBook.title} />
+            <img
+              src={selectedBook.profileUrl}
+              className={"rounded-md drop-shadow-md w-25 h-60"}
+              alt={selectedBook.title}
+            />
             <Typography
               variant="body2"
               color="text.black"
