@@ -93,6 +93,7 @@ const Register = () => {
         name="profileUrl"
         id="profileUrl"
         placeholder="profileUrl"
+        required={true}
         onChange={(e) => {
           setFromInput((value) => ({ ...value, profileUrl: e.target.value }));
         }}
@@ -107,6 +108,7 @@ const Register = () => {
         name="email"
         id="email"
         placeholder="email@example.com"
+        required={true}
         onChange={(e) => {
           setFromInput((value) => ({ ...value, email: e.target.value }));
         }}
@@ -120,6 +122,7 @@ const Register = () => {
         name="username"
         id="username"
         placeholder="User Example"
+        required={true}
         onChange={(e) => {
           setFromInput((value) => ({ ...value, username: e.target.value }));
         }}
@@ -133,6 +136,7 @@ const Register = () => {
         name="password"
         id="password"
         placeholder="***************"
+        required={true}
         onChange={(e) => {
           setFromInput((value) => ({ ...value, password: e.target.value }));
         }}

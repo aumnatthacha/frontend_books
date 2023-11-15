@@ -78,6 +78,8 @@ const Login = () => {
           name="username"
           id="username"
           placeholder="User Example"
+          required={true}
+
           onChange={(e) => {
             setFormInput((value) => ({ ...value, username: e.target.value }));
           }}
@@ -94,6 +96,7 @@ const Login = () => {
           name="password"
           id="password"
           placeholder="***************"
+          required={true}
           onChange={(e) => {
             setFormInput((value) => ({ ...value, password: e.target.value }));
           }}
