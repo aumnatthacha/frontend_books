@@ -18,8 +18,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Role } from "../../interfaces/Role";
 import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
+// import IconButton from "@mui/material/IconButton";
+// import SearchIcon from "@mui/icons-material/Search";
 import CircularProgress from "@mui/material/CircularProgress";
 import AnimationSkeleton from "../../components/AnimationSkeleton";
 
@@ -121,9 +121,9 @@ const Home: React.FC = () => {
           size="small"
           style={{ width: "300px", marginRight: "8px" }}
         />
-        <IconButton onClick={() => setSearchTerm("")} size="small">
+        {/* <IconButton onClick={() => setSearchTerm("")} size="small">
           <SearchIcon />
-        </IconButton>
+        </IconButton> */}
       </div>
       <div
         style={{
